@@ -53,6 +53,9 @@
       .dataTables_processing {
         text-align: center !important;
       }
+      li{
+        list-style-type: none;
+      }
     </style>
     <script>
       function readURL(input, level) {
@@ -143,16 +146,22 @@
             <div class="collapse" id="config" style="">
               <ul class="nav ms-4 ps-3">
                 <li class="nav-item ">
-                  <a class="nav-link" data-id="master_data-user_grup" href="{{ route('config.anggaran') }}">
+                  <a class="nav-link" data-id="config-anggaran" id="config-anggaran" href="{{ route('config.anggaran') }}">
                     <span class="sidenav-mini-icon"> AG </span>
                     <span class="sidenav-normal"> Anggaran </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link" data-id="config-unit_kerja" id="config-unit_kerja" href="{{ route('config.unit_kerja') }}">
+                    <span class="sidenav-mini-icon"> UK </span>
+                    <span class="sidenav-normal"> Unit Kerja </span>
                   </a>
                 </li>
               </ul>
             </div>
           </li>
           <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#dashboardsExamples" class="nav-link collapsed menu-master_data" aria-controls="dashboardsExamples" role="button" aria-expanded="false">
+            <a data-bs-toggle="collapse" href="#master_data" class="nav-link collapsed menu-master_data" aria-controls="master_data" role="button" aria-expanded="false">
               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
                 <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                   <title>shop </title>
@@ -170,22 +179,22 @@
               </div>
               <span class="nav-link-text ms-1">Master Data</span>
             </a>
-            <div class="collapse" id="dashboardsExamples" style="">
+            <div class="collapse" id="master_data" style="">
               <ul class="nav ms-4 ps-3">
                 <li class="nav-item ">
-                  <a class="nav-link" data-id="master_data-user_grup" href="{{ route('master_data.user_grup') }}">
+                  <a class="nav-link" data-id="master_data-user_grup" id="master_data-user_grup" href="{{ route('master_data.user_grup') }}">
                     <span class="sidenav-mini-icon"> UG </span>
                     <span class="sidenav-normal"> User Grup </span>
                   </a>
                 </li>
                 <li class="nav-item ">
-                  <a class="nav-link" data-id="master_data-user_grup" href="{{ route('master_data.user') }}">
+                  <a class="nav-link" data-id="master_data-user" id="master_data-user" href="{{ route('master_data.user') }}">
                     <span class="sidenav-mini-icon"> U </span>
                     <span class="sidenav-normal"> User </span>
                   </a>
                 </li>
                 <li class="nav-item ">
-                  <a class="nav-link" data-id="master_data-user_grup" href="{{ route('master_data.kategori') }}">
+                  <a class="nav-link" data-id="master_data-kategori" id="master_data-kategori" href="{{ route('master_data.kategori') }}">
                     <span class="sidenav-mini-icon"> K </span>
                     <span class="sidenav-normal"> Kategori </span>
                   </a>
@@ -411,6 +420,7 @@
               $('#' + arr[i]).addClass('show');
           }
           $('.menu-' + menu).addClass('active');
+          $('#'+menu).addClass('active');
           localStorage.setItem('menu-active', menu);
           // alert('menu-' + menu);
       }

@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_pengajuan', function (Blueprint $table) {
+        Schema::create('conf_unit_kerja', function (Blueprint $table) {
             $table->id();
-            $table->integer('tahun')->default(0)->nullable();
-            $table->integer('anggaran_awal')->default(0)->nullable();
-            $table->integer('anggaran_sisa')->default(0)->nullable();
+            $table->string('nama_unit_kerja', 250)->nullable();
             $table->dateTime('created_at')->nullable();
             $table->dateTime('updated_at')->nullable();
             $table->dateTime('deleted_at')->nullable();
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tb_pengajuan');
+        Schema::dropIfExists('conf_unit_kerja');
     }
 };

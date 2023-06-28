@@ -125,6 +125,7 @@ class MasterDataController extends Controller
             'title' => 'User Form',
             'pages' => ['Master Data', 'User', 'Form'],
             'user_grup' => GeneralModel::getRes('m_user_grup', '*', 'WHERE deleted_at IS NULL ORDER BY nama_grup DESC'),
+            'unit_kerja' => GeneralModel::getRes('conf_unit_kerja', '*', 'WHERE deleted_at IS NULL ORDER BY nama_unit_kerja DESC'),
             'data' => $id ? GeneralModel::getRow('m_user', '*', 'WHERE id="'.$id.'"') : ''
         ]);
     }
@@ -133,6 +134,7 @@ class MasterDataController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'id_user_grup' => 'required',
+            'id_unit_kerja' => 'required',
             'username' => 'required',
             'nama' => 'required',
             'email' => 'required',
@@ -143,6 +145,7 @@ class MasterDataController extends Controller
         }
         $data = [
             'id_user_grup' => $request->post('id_user_grup'),
+            'id_unit_kerja' => $request->post('id_unit_kerja'),
             'username' => $request->post('username'),
             'nama' => $request->post('nama'),
             'email' => $request->post('email'),

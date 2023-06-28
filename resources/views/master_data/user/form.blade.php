@@ -36,6 +36,18 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label>Unit Kerja</label>
+                    @error('id_unit_kerja')
+                    <bR><small class="text-danger">{{ $message }}</small>
+                    @enderror
+                    <select class="form-control" name="id_unit_kerja" id="id_unit_kerja">
+                        <option value="">Pilih Unit Kerja</option>
+                        @foreach ($unit_kerja as $key)
+                            <option value="{{ $key->id }}" {{ @$data->id_unit_kerja == $key->id ? 'selected' : '' }}>{{ $key->nama_unit_kerja }}</option>   
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
                     <div class="row">
                         <div class="col-sm-6">
                             <label>Username</label>

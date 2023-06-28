@@ -44,6 +44,12 @@ Route::group(['prefix' => 'config', 'middleware' => 'userauth'], function () {
         Route::post('act', [ConfigController::class, 'anggaran_act'])->name('config.anggaran.act');
         Route::get('delete/{id}', [ConfigController::class, 'anggaran_delete'])->name('config.anggaran.delete');
     });
+    Route::group(['prefix' => 'unit_kerja', 'middleware' => 'userauth'], function () {
+        Route::get('/', [ConfigController::class, 'unit_kerja'])->name('config.unit_kerja');
+        Route::post('list', [ConfigController::class, 'unit_kerja_list'])->name('config.unit_kerja.list');
+        Route::post('act', [ConfigController::class, 'unit_kerja_act'])->name('config.unit_kerja.act');
+        Route::get('delete/{id}', [ConfigController::class, 'unit_kerja_delete'])->name('config.unit_kerja.delete');
+    });
 });
 
 Route::group(['prefix' => 'master_data', 'middleware' => 'userauth'], function () {
@@ -57,7 +63,7 @@ Route::group(['prefix' => 'master_data', 'middleware' => 'userauth'], function (
         Route::get('/', [MasterDataController::class, 'user'])->name('master_data.user');
         Route::post('list', [MasterDataController::class, 'user_list'])->name('master_data.user.list');
         Route::get('add', [MasterDataController::class, 'user_form'])->name('master_data.user.add');
-        Route::post('edit/{id}', [MasterDataController::class, 'user_form'])->name('master_data.user.edit');
+        Route::get('edit/{id}', [MasterDataController::class, 'user_form'])->name('master_data.user.edit');
         Route::post('act', [MasterDataController::class, 'user_act'])->name('master_data.user.act');
         Route::get('delete/{id}', [MasterDataController::class, 'user_delete'])->name('master_data.user.delete');
     });
