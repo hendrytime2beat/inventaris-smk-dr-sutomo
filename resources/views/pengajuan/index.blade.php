@@ -177,11 +177,6 @@
     $('#btn-cari').click(function(){
       table_data.ajax.reload();
     })
-
-    function finish(id){
-      $('#id').val(id);
-      $('#modal-main').modal('show');
-    }
   
     function hapus(id) {
       swal({
@@ -204,6 +199,18 @@
           })
         }
       })
+    }
+
+    const main = {
+      finish: function(that){
+
+      },
+      reject: function(that){
+
+      },
+      batal: function(that){
+
+      },
     }
   </script>
 @endSection

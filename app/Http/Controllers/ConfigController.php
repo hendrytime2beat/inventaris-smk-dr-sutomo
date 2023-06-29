@@ -65,6 +65,7 @@ class ConfigController extends Controller
         ];
         if(empty($request->post('id'))){
             $data['created_at'] = date('Y-m-d H:i:s');
+            $data['anggaran_sisa'] = $request->post('anggaran');
             GeneralModel::setInsert('conf_anggaran', $data);
             $request->session()->flash('message', 'Sukses!, anda berhasil menambahkan Anggaran');
             $id = GeneralModel::getid();
