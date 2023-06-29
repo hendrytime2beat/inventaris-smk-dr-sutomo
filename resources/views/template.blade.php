@@ -203,7 +203,7 @@
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link menu-list" data-id="list" href="">
+            <a class="nav-link menu-perencanaan" data-id="perencanaan" href="{{ route('perencanaan') }}">
               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
                 <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                   <title>office</title>
@@ -219,11 +219,11 @@
                   </g>
                   </svg>
               </div>
-              <span class="nav-link-text ms-1">Pemasukan</span>
+              <span class="nav-link-text ms-1">Perencanaan</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link menu-expenditure" data-id="expenditure" href="">
+            <a class="nav-link menu-pengajuan" data-id="pengajuan" href="{{ route('pengajuan') }}">
               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
                 <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                   <title>box-3d-50</title>
@@ -240,7 +240,7 @@
                   </g>
                   </svg>
               </div>
-              <span class="nav-link-text ms-1">Pengeluaran</span>
+              <span class="nav-link-text ms-1">Pengajuan</span>
             </a>
           </li>
           <li class="nav-item">

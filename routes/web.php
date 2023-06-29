@@ -5,8 +5,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AccessController;
 use App\Http\Controllers\MasterDataController;
 use App\Http\Controllers\ConfigController;
-use App\Http\Controllers\IncomeController;
-use App\Http\Controllers\ExpenditureController;
+use App\Http\Controllers\PerencanaanController;
+use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\ReportController;
 /*
 |--------------------------------------------------------------------------
@@ -75,33 +75,27 @@ Route::group(['prefix' => 'master_data', 'middleware' => 'userauth'], function (
     });
 });
 
+Route::group(['prefix' => 'perencanaan', 'middleware' => 'userauth'], function(){
+    Route::get('/', [PerencanaanController::class, 'index'])->name('perencanaan');
+    Route::post('list', [PerencanaanController::class, 'list'])->name('perencanaan.list');
+    Route::group(['prefix' => 'add'], function(){
+        Route::get('/', [PerencanaanController::class, 'form'])->name('perencanaan.add');
+        Route::post('act', [PerencanaanController::class, 'act'])->name('perencanaan.add.act');
+    });
+    Route::group(['prefix' => 'edit'], function(){
+        Route::get('/{id}', [PerencanaanController::class, 'form'])->name('perencanaan.edit');
+        Route::post('act', [PerencanaanController::class, 'act'])->name('perencanaan.edit.act');
+    });
+    Route::get('detail/{id}', [PerencanaanController::class, 'detail'])->name('perencanaan.detail');
+    Route::get('delete/{id}', [PerencanaanController::class, 'delete'])->name('perencanaan.delete');
+    Route::post('diajukan', [PerencanaanController::class, 'finish'])->name('perencanaan.finish');
+    Route::get('batal/{id}', [PerencanaanController::class, 'batal'])->name('perencanaan.batal');
+});
 
-// Route::group(['prefix' => 'income', 'middleware' => 'userauth'], function () {
-//     Route::get('/', [IncomeController::class, 'index'])->name('income');
-//     Route::post('list', [IncomeController::class, 'list'])->name('income.list');
-//     Route::group(['prefix' => 'add', 'middleware' => 'userauth'], function () {
-//         Route::get('/', [IncomeController::class, 'form'])->name('income.add');
-//         Route::post('act', [IncomeController::class, 'act'])->name('income.add.act');
-//     });
-//     // Route::group(['prefix' => 'edit', 'middleware' => 'userauth'], function () {
-//     //     Route::get('/{id}', [IncomeController::class, 'form'])->name('income.edit');
-//     //     Route::post('act/{id}', [IncomeController::class, 'act'])->name('income.edit.act');
-//     // });
-//     Route::get('detail/{id}', [IncomeController::class, 'detail'])->name('income.detail');
-// });
-
-// Route::group(['prefix' => 'expenditure', 'middleware' => 'userauth'], function () {
-//     Route::get('/', [ExpenditureController::class, 'index'])->name('expenditure');
-//     Route::post('list', [ExpenditureController::class, 'list'])->name('expenditure.list');
-//     Route::group(['prefix' => 'add', 'middleware' => 'userauth'], function () {
-//         Route::get('/', [ExpenditureController::class, 'form'])->name('expenditure.add');
-//         Route::post('act', [ExpenditureController::class, 'act'])->name('expenditure.add.act');
-//     });
-//     Route::get('detail/{id}', [ExpenditureController::class, 'detail'])->name('expenditure.detail');
-// });
-
-// Route::group(['prefix' => 'report', 'middleware' => 'userauth'], function () {
-//     Route::get('/', [ReportController::class, 'index'])->name('report');
-//     Route::post('list', [ReportController::class, 'list'])->name('report.list');
-//     Route::get('detail/{id}', [ReportController::class, 'detail'])->name('report.detail');
-// });
+Route::group(['prefix' => 'pengajuan', 'middleware' => 'userauth'], function(){
+    Route::get('/', [PengajuanController::class, 'index'])->name('pengajuan');
+    Route::post('list', [PengajuanController::class, 'list'])->name('pengajuan.list');
+    Route::get('detail/{id}', [PengajuanController::class, 'detail'])->name('pengajuan.detail');
+    Route::post('diajukan', [PengajuanController::class, 'finish'])->name('pengajuan.finish');
+    Route::get('batal/{id}', [PengajuanController::class, 'batal'])->name('pengajuan.batal');
+});
