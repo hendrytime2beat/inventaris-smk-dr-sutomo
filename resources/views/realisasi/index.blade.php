@@ -39,7 +39,7 @@
             </div>
             <div class="col-sm-3 mt-2">
               <label>Status</label>
-              <select class="form-control" name="status_pengajuan" id="status_pengajuan">
+              <select class="form-control" name="status_realisasi" id="status_realisasi">
                 <option value="">Semua Status</option>
                 <option value="request">Request</option>
                 <option value="finish">Diajukan</option>
@@ -79,27 +79,10 @@
 </div>
 
 <div class="modal fade" id="modal-main" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <form method="post" id="form-main" class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Pengajuan</h5>
-        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label>Catatan</label>
-          <input type="hidden" name="_token" value="{{ csrf_token() }}">
-          <input type="hidden" name="id" id="id" value="0">
-          <textarea type="text" name="catatan" id="catatan" placeholder="Catatan" class="form-control" value="{{ old('catatan') }}" required></textarea>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Tutup</button>
-        <button type="submit" class="btn bg-gradient-success">Simpan</button>
-      </div>
-    </form>
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div id="div-modal"></div>
+    </div>
   </div>
 </div>
   
@@ -112,7 +95,7 @@
       "bProcessing": true,
       "bServerSide": true,
       "ajax": {
-        "url": "{{ route('pengajuan.list') }}",
+        "url": "{{ route('realisasi.list') }}",
         "type": "POST",
         "data": {
             "_token": '{{ csrf_token() }}',
@@ -128,8 +111,8 @@
             "id_kategori": function(){
               return $('#id_kategori').val()
             },
-            "status_pengajuan": function(){
-              return $('#status_pengajuan').val()
+            "status_realisasi": function(){
+              return $('#status_realisasi').val()
             },
         }
       },
@@ -189,7 +172,7 @@
         padding: '2em'
       }).then(function(result) {
         if (result.value) {
-          $.get('{{ url("pengajuan/delete") }}/' + id, function(res) {
+          $.get('{{ url("realisasi/delete") }}/' + id, function(res) {
             swal(
               'Sukses!',
               'Data berhasil dihapus',
@@ -202,13 +185,101 @@
     }
 
     const main = {
-      main: function(that){
+      accept: function(that){
         let data = $(that).data('json');
         let url = $(that).data('url');
+        $('#div-modal').html(`    
+        <form method="post" id="form-main" enctype="multipart/form-data">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Realisasi</h5>
+            <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="id" id="id" value="0">
+            <div class="form-group">
+              <label>Nama Vendor</label>  
+              <input type="text" name="nama_vendor" id="nama_vendor" class="form-control" placeholder="Nama Vendor">
+            </div>
+            <div class="form-group">
+              <label>ETA</label>  
+              <input type="date" name="eta" id="eta" class="form-control" placeholder="ETA" value="{{ date('Y-m-d') }}">
+            </div>
+            <div class="form-group">
+                <label>Foto 1</label>
+                <div class="alert alert-secondary text-center col-sm-6">
+                    <img id="blah_foto_1" src="{{ asset('assets/img/logo/logo.png') }}" style="width:200px;" onerror="imgError(this)" alt="..." loading="lazy">
+                </div>
+                <input class="form-control" name="foto_1" style="display:none;" id="foto_1" type="file" onchange="readURL(this, 'foto_1');" required>
+                <button class="btn btn-outline-success btn-sm" type="button" onclick="$('#foto_1').click();">Upload Foto</button>
+            </div>
+            <div class="form-group">
+                <label>Foto 2</label>
+                <div class="alert alert-secondary text-center col-sm-6">
+                    <img id="blah_foto_2" src="{{ asset('assets/img/logo/logo.png') }}" style="width:200px;" onerror="imgError(this)" alt="..." loading="lazy">
+                </div>
+                <input class="form-control" name="foto_2" style="display:none;" id="foto_2" type="file" onchange="readURL(this, 'foto_2');">
+                <button class="btn btn-outline-success btn-sm" type="button" onclick="$('#foto_2').click();">Upload Foto</button>
+            </div>
+            <div class="form-group">
+                <label>Foto 3</label>
+                <div class="alert alert-secondary text-center col-sm-6">
+                    <img id="blah_foto_3" src="{{ asset('assets/img/logo/logo.png') }}" style="width:200px;" onerror="imgError(this)" alt="..." loading="lazy">
+                </div>
+                <input class="form-control" name="foto_3" style="display:none;" id="foto_3" type="file" onchange="readURL(this, 'foto_3');">
+                <button class="btn btn-outline-success btn-sm" type="button" onclick="$('#foto_3').click();">Upload Foto</button>
+            </div>
+            <div class="form-group">
+              <label>Link Pembelian</label>  
+              <input type="text" name="link_pembelian" id="link_pembelian" class="form-control" placeholder="Link Pembelian">
+            </div>
+            <div class="form-group">
+              <label>Catatan</label>
+              <textarea type="text" name="catatan" id="catatan" placeholder="Catatan" class="form-control" value="{{ old('catatan') }}" required></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Tutup</button>
+            <button type="submit" class="btn bg-gradient-success">Simpan</button>
+          </div>
+        </form>
+        `)
         $('#form-main').attr('action', url);
         $('#id').val(data.id);
         $('#modal-main').modal('show');
-        $('#modal-title').html($(that).data('action'));
+        $('.modal-title').html($(that).data('action'));
+      },
+      reject: function(that){
+        let data = $(that).data('json');
+        let url = $(that).data('url');
+        $('#div-modal').html(`    
+        <form method="post" id="form-main" enctype="multipart/form-data">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Realisasi</h5>
+            <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Catatan</label>
+              <input type="hidden" name="_token" value="{{ csrf_token() }}">
+              <input type="hidden" name="id" id="id" value="0">
+              <textarea type="text" name="catatan" id="catatan" placeholder="Catatan" class="form-control" value="{{ old('catatan') }}" required></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Tutup</button>
+            <button type="submit" class="btn bg-gradient-success">Simpan</button>
+          </div>
+        </form>
+        `)
+        $('#form-main').attr('action', url);
+        $('#id').val(data.id);
+        $('#modal-main').modal('show');
+        $('.modal-title').html($(that).data('action'));
       },
     }
   </script>

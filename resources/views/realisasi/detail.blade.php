@@ -13,7 +13,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <label>Tgl Pengajuan</label>       
+                                            <label>Tgl realisasi</label>       
                                             <p class="ml-1 p-1">{{ \Helper::tanggalwow(@$data->created_at) }}</p>
                                         </div>
                                         <div class="col-sm-6">
@@ -43,15 +43,15 @@
                                     <p class="ml-1 p-1">{{ @$data->nama_user_create }}</p>
                                 </div>
                                 <div class="form-group">
-                                    <label>Status Pengajuan</label> 
-                                    <p class="ml-1 p-1">{{ ucfirst(@$data->status_pengajuan) }}</p>
+                                    <label>Status Realisasi</label> 
+                                    <p class="ml-1 p-1">{{ ucfirst(@$data->status_realisasi) }}</p>
                                 </div>
                                 <div class="form-group">
                                     <label>Keterangan</label> 
                                     <p class="ml-1 p-1">{{ @$data->keterangan }}</p>
                                 </div>
                                 <div class="form-group text-end">
-                                    <a type="button" href="{{ route('pengajuan') }}"
+                                    <a type="button" href="{{ route('realisasi') }}"
                                         class="btn btn-warning">Kembali</a>
                                 </div>
                             </div>

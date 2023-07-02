@@ -7,6 +7,8 @@ use App\Http\Controllers\MasterDataController;
 use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\PerencanaanController;
 use App\Http\Controllers\PengajuanController;
+use App\Http\Controllers\RealisasiController;
+use App\Http\Controllers\PenerimaController;
 use App\Http\Controllers\ReportController;
 /*
 |--------------------------------------------------------------------------
@@ -96,6 +98,25 @@ Route::group(['prefix' => 'pengajuan', 'middleware' => 'userauth'], function(){
     Route::get('/', [PengajuanController::class, 'index'])->name('pengajuan');
     Route::post('list', [PengajuanController::class, 'list'])->name('pengajuan.list');
     Route::get('detail/{id}', [PengajuanController::class, 'detail'])->name('pengajuan.detail');
-    Route::post('diajukan', [PengajuanController::class, 'finish'])->name('pengajuan.finish');
+    Route::post('diajukan/{id}', [PengajuanController::class, 'finish'])->name('pengajuan.finish');
     Route::get('batal/{id}', [PengajuanController::class, 'batal'])->name('pengajuan.batal');
+    Route::get('reject/{id}', [PengajuanController::class, 'reject'])->name('pengajuan.reject');
+});
+
+Route::group(['prefix' => 'realisasi', 'middleware' => 'userauth'], function(){
+    Route::get('/', [RealisasiController::class, 'index'])->name('realisasi');
+    Route::post('list', [RealisasiController::class, 'list'])->name('realisasi.list');
+    Route::get('detail/{id}', [RealisasiController::class, 'detail'])->name('realisasi.detail');
+    Route::post('diterima/{id}', [RealisasiController::class, 'finish'])->name('realisasi.finish');
+    Route::get('batal/{id}', [RealisasiController::class, 'batal'])->name('realisasi.batal');
+    Route::get('reject/{id}', [RealisasiController::class, 'reject'])->name('realisasi.reject');
+});
+
+Route::group(['prefix' => 'penerima', 'middleware' => 'userauth'], function(){
+    Route::get('/', [PenerimaController::class, 'index'])->name('penerima');
+    Route::post('list', [PenerimaController::class, 'list'])->name('penerima.list');
+    Route::get('detail/{id}', [PenerimaController::class, 'detail'])->name('penerima.detail');
+    Route::post('diterima/{id}', [PenerimaController::class, 'finish'])->name('penerima.finish');
+    Route::get('batal/{id}', [PenerimaController::class, 'batal'])->name('penerima.batal');
+    Route::get('reject/{id}', [PenerimaController::class, 'reject'])->name('penerima.reject');
 });

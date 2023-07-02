@@ -58,11 +58,9 @@ class PengajuanController extends Controller
             $row[] = $key->status_pengajuan;
             $row[] = $key->keterangan;
             $row[] = '
-                <a class="btn btn-success btn-xxs mr-2" data-json=\''.json_encode($key).'\'  onclick="main.finish(this)"><li class="fa fa-check" aria-hidden="true"></li> Relisasi</a>
+                <a class="btn btn-success btn-xxs mr-2" data-json=\''.json_encode($key).'\' data-action="Realisasi" data-url="'.route('pengajuan.finish', $key->id).'" onclick="main.main(this)"><li class="fa fa-check" aria-hidden="true"></li> Relisasi</a>
                 &nbsp;
-                <a class="btn btn-success btn-xxs mr-2" data-json=\''.json_encode($key).'\'  onclick="main.reject(this)"><li class="fa fa-check" aria-hidden="true"></li> Reject</a>
-                &nbsp;
-                <a class="btn btn-danger btn-xxs mr-2" data-json=\''.json_encode($key).'\'  onclick="main.batal(this)"><li class="fa fa-close" aria-hidden="true"></li> Batal</a>
+                <a class="btn btn-danger btn-xxs mr-2" data-json=\''.json_encode($key).'\'data-action="Reject" data-url="'.route('pengajuan.reject', $key->id).'" onclick="main.main(this)"><li class="fa fa-close" aria-hidden="true"></li> Reject</a>
                 &nbsp;
                 <a class="btn btn-primary btn-xxs mr-2" href="' . route('pengajuan.detail', $key->id) . '"><li class="fa fa-info" aria-hidden="true"></li> Detail</a>
                 &nbsp;
@@ -105,7 +103,7 @@ class PengajuanController extends Controller
             'status_pengajuan' => 'reject',
             'id_user_reject' => $request->session()->get('id_user'),
             'tgl_reject' => date('Y-m-d H:i:s'),
-            'catatan_reject' => $request->post('catatan_reject')
+            'catatan_reject' => $request->post('catatan')
         ], [
             'id' => $request->post('id')
         ]);
@@ -131,14 +129,11 @@ class PengajuanController extends Controller
         GeneralModel::setUpdate('tb_pengajuan', [
             'id_user_approve' => $request->session()->get('id_user'),
             'tgl_approve' => date('Y-m-d H:i:s'),
-            'catatan_approve' => $request->post('catatan_approve'),
+            'catatan_approve' => $request->post('catatan'),
             'status_pengajuan' => 'finish'
         ], [
             'id' => $request->post('id')
         ]);
-        $anggaran = GeneralModel::getRow('tb_anggaran', '*', 'WHERE id="'.$pengajuan->id_anggaran.'"');
-        $anggaran_sebelum = $anggaran->anggaran_sisa;
-        $anggaran_sesudah = $anggaran_sebelum-$pengajuan->harga;
         $data_realisasi = [
             'id_perencanaan' => $pengajuan->id_perencanaan,
             'id_pengajuan' => $request->post('id'),
@@ -153,47 +148,11 @@ class PengajuanController extends Controller
             'harga' => $pengajuan->harga,
             'keterangan' => $pengajuan->keterangan,
             'nama_user_create' => $request->session()->get('nama'),
-            'nama_vendor' => $request->post('nama_vendor'),
-            'eta' => $request->post('eta'),
-            'sisa_anggaran_sebelum' => $sisa_anggaran_sebelum,
-            'sisa_anggaran_sesudah' => $sisa_anggaran_sesudah,
             'status_realisasi' => 'request',
             'created_at' => date('Y-m-d H:i:s')
         ];
-        if ($request->hasFile('foto_1')) {
-            $name_file = $request->file('foto_1')->getClientOriginalName();
-            $path = public_path('\assets\img\realisasi');
-            $request->file('foto_1')->move($path, $name_file);
-            $data_realisasi['foto_1'] = $name_file;
-        }
-        if ($request->hasFile('foto_2')) {
-            $name_file = $request->file('foto_2')->getClientOriginalName();
-            $path = public_path('\assets\img\realisasi');
-            $request->file('foto_2')->move($path, $name_file);
-            $data_realisasi['foto_2'] = $name_file;
-        }
-        if ($request->hasFile('foto_3')) {
-            $name_file = $request->file('foto_3')->getClientOriginalName();
-            $path = public_path('\assets\img\realisasi');
-            $request->file('foto_3')->move($path, $name_file);
-            $data_realisasi['foto_3'] = $name_file;
-        }
         GeneralModel::setInsert('tb_realisasi', $data_realisasi);
         $id_realisasi = GeneralModel::getId();
-        GeneralModel::setUpdate('conf_anggaran', [
-            'anggaran_sisa' => $anggaran_sesudah
-        ], [
-            'id' => $pengajuan->id_anggaran
-        ]);
-        GeneralModel::setInsert('tb_riwayat_anggaran', [
-            'id_anggaran' => $pengajuan->id_anggaran,
-            'id_realisasi' => $id_realisasi,
-            'tgl_transaksi' => date('Y-m-d H:i:s'),
-            'awal' => $anggaran->anggaran_awal,
-            'keluar' => $pengajuan->harga,
-            'masuk' => 0,
-            'sisa' => $anggaran_sisa,
-        ]);
         $request->session()->flash('message', 'Sukses!, anda berhasil menrealisasi pengajuan');
         return redirect()->route('pengajuan');
     }
