@@ -23,7 +23,9 @@ return new class extends Migration
             $table->integer('anggaran')->default(0)->nullable();
             $table->enum('jenis', ['bahan', 'aset', 'jasa'])->nullable();
             $table->string('nama_kategori', 250)->nullable();
+            $table->integer('jumlah')->default(0)->nullable();
             $table->integer('harga')->default(0)->nullable();
+            $table->integer('total')->default(0)->nullable();
             $table->text('keterangan')->nullable();
             $table->string('nama_user_create', 250)->nullable();
             $table->enum('status_perencanaan', ['request', 'finish', 'batal'])->default('request');

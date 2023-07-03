@@ -38,31 +38,38 @@ class RealisasiController extends Controller
         if($request->post('status_realisasi')){
             $where[] = ['status_realisasi', '=', $request->post('status_realisasi')];
         }
-        $column_order   = ['id', 'nama_item', 'harga', 'jenis', 'nama_kategori', 'nama_user_create', 'status_realisasi', 'keterangan'];
-        $column_search  = ['nama_item', 'harga', 'jenis', 'nama_kategori', 'nama_user_create', 'status_realisasi', 'keterangan'];
+        $column_order   = ['id', 'nama_item','jumlah', 'harga', 'jenis', 'nama_kategori', 'nama_user_create', 'status_realisasi', 'keterangan'];
+        $column_search  = ['nama_item','jumlah', 'harga', 'jenis', 'nama_kategori', 'nama_user_create', 'status_realisasi', 'keterangan'];
         $order = ['id' => 'DESC'];
         $list = GeneralModel::getDatatable('tb_realisasi', $column_order, $column_search, $order, $where);
         $data = array();
         $no = $request->post('start');
         foreach ($list as $key) {
+            $action = '';
+            $finish = '&nbsp;<a class="btn btn-success btn-xxs mr-2" data-json=\''.json_encode($key).'\' data-action="Realisasi" data-url="'.route('realisasi.finish', $key->id).'" onclick="main.accept(this)"><li class="fa fa-check" aria-hidden="true"></li> Realisasi</a>';
+            $reject = '&nbsp;<a class="btn btn-danger btn-xxs mr-2" data-json=\''.json_encode($key).'\'data-action="Reject" data-url="'.route('realisasi.reject', $key->id).'" onclick="main.reject(this)"><li class="fa fa-close" aria-hidden="true"></li> Reject</a>';
+            $detail = '&nbsp;<a class="btn btn-primary btn-xxs mr-2" href="' . route('realisasi.detail', $key->id) . '"><li class="fa fa-info" aria-hidden="true"></li> Detail</a>';
+            $hapus = '&nbsp;<a class="btn btn-danger btn-xxs hidden" onclick="hapus(' . $key->id . ')"><li class="fa fa-trash" aria-hidden="true"></li> Hapus</a>';
+            if(session('id_user_grup') == 1 || session('id_user_grup') == 4){
+                $action = $finish.$reject.$detail.$hapus;
+            } else {
+                $action = $detail;
+            }
+            if($key->status_realisasi == 'finish'){
+                $action = $detail;
+            } 
             $no++;
             $row = array();
             $row[] = $no;
             $row[] = $key->nama_item;
+            $row[] = $key->jumlah;
             $row[] = \Helper::uang($key->harga);
             $row[] = $key->jenis;
             $row[] = $key->nama_kategori;
             $row[] = $key->nama_user_create;
             $row[] = $key->status_realisasi;
             $row[] = $key->keterangan;
-            $row[] = '
-                <a class="btn btn-success btn-xxs mr-2" data-json=\''.json_encode($key).'\' data-action="Diterima" data-url="'.route('realisasi.finish', $key->id).'" onclick="main.accept(this)"><li class="fa fa-check" aria-hidden="true"></li> Diterima</a>
-                &nbsp;
-                <a class="btn btn-danger btn-xxs mr-2" data-json=\''.json_encode($key).'\'data-action="Reject" data-url="'.route('realisasi.reject', $key->id).'" onclick="main.reject(this)"><li class="fa fa-close" aria-hidden="true"></li> Reject</a>
-                &nbsp;
-                <a class="btn btn-primary btn-xxs mr-2" href="' . route('realisasi.detail', $key->id) . '"><li class="fa fa-info" aria-hidden="true"></li> Detail</a>
-                &nbsp;
-                <a class="btn btn-danger btn-xxs" onclick="hapus(' . $key->id . ')"><li class="fa fa-trash" aria-hidden="true"></li> Hapus</a>';
+            $row[] = $action;
             $data[] = $row;
         }
         $output = array(
@@ -127,7 +134,7 @@ class RealisasiController extends Controller
         $realisasi = GeneralModel::getRow('tb_realisasi', '*', 'WHERE id="'.$request->post('id').'"');
         $anggaran = GeneralModel::getRow('conf_anggaran', '*', 'WHERE id="'.$realisasi->id_anggaran.'"');
         $anggaran_sebelum = $anggaran->anggaran_sisa;
-        $anggaran_sesudah = $anggaran_sebelum-$realisasi->harga;
+        $anggaran_sesudah = $anggaran_sebelum-$realisasi->total;
         $data_realisasi = [
             'id_user_approve' => $request->session()->get('id_user'),
             'tgl_approve' => date('Y-m-d H:i:s'),
@@ -169,7 +176,7 @@ class RealisasiController extends Controller
             'id_realisasi' => $id,
             'tgl_transaksi' => date('Y-m-d H:i:s'),
             'awal' => $anggaran->anggaran_awal,
-            'keluar' => $realisasi->harga,
+            'keluar' => $realisasi->total,
             'masuk' => 0,
             'sisa' => $anggaran_sesudah,
         ]);
@@ -186,7 +193,9 @@ class RealisasiController extends Controller
             'anggaran' => $realisasi_after->anggaran,
             'jenis' => $realisasi_after->jenis,
             'nama_kategori' => $realisasi_after->nama_kategori,
+            'jumlah' => $realisasi_after->jumlah,
             'harga' => $realisasi_after->harga,
+            'total' => $realisasi_after->total,
             'keterangan' => $realisasi_after->keterangan,
             'nama_user_create' => $request->session()->get('nama'),
             'status_penerima' => 'request',

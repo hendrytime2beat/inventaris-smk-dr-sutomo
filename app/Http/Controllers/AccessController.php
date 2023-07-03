@@ -34,6 +34,8 @@ class AccessController extends Controller
         GeneralModel::setUpdate('m_user', ['last_login' => date('Y-m-d H:i:s')], ['id' => $valUser->id]);
         $request->session()->put([
             'id_user' => $valUser->id,
+            'id_user_grup' => $valUser->id_user_grup,
+            'id_unit_kerja' => $valUser->id_unit_kerja,
             'nama' => $valUser->nama,
             'username' => $valUser->username,
             'foto_profil' => $valUser->foto_profil

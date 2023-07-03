@@ -13,29 +13,45 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <label>Tanggal Transaksi</label>       
-                                            <p class="ml-1 p-1">{{ \Helper::tanggalwow(@$data->transaction_date) }}</p>
+                                            <label>Tgl Pengajuan</label>       
+                                            <p class="ml-1 p-1">{{ \Helper::tanggalwow(@$data->created_at) }}</p>
                                         </div>
                                         <div class="col-sm-6">
-                                            <label>Jam Transaksi</label> 
-                                            <p class="ml-1 p-1">{{ @$data->transaction_time }}</p>
+                                            <label>Anggaran</label> 
+                                            <p class="ml-1 p-1">{{ \Helper::uang(@$data->anggaran) }}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Jumlah Transaksi</label> 
-                                    <p class="ml-1 p-1">{{ \Helper::uang(@$data->amount) }}</p>
+                                    <label>Nama Item</label> 
+                                    <p class="ml-1 p-1">{{ @$data->nama_item }}</p>
                                 </div>
                                 <div class="form-group">
-                                    <label>Deskripsi</label> 
-                                    <p class="ml-1 p-1">{{ @$data->description }}</p>
+                                    <label>Jenis</label> 
+                                    <p class="ml-1 p-1">{{ @$data->jenis }}</p>
                                 </div>
                                 <div class="form-group">
-                                    <label>Catatan</label> 
-                                    <p class="ml-1 p-1">{{ @$data->notes }}</p>
+                                    <label>Kategori (KBKI)</label> 
+                                    <p class="ml-1 p-1">{{ @$data->nama_kategori }}</p>
+                                </div>
+                                <div class="form-group">
+                                    <label>Harga</label> 
+                                    <p class="ml-1 p-1">{{ \Helper::uang(@$data->harga) }}</p>
+                                </div>
+                                <div class="form-group">
+                                    <label>User Input</label> 
+                                    <p class="ml-1 p-1">{{ @$data->nama_user_create }}</p>
+                                </div>
+                                <div class="form-group">
+                                    <label>Status Pengajuan</label> 
+                                    <p class="ml-1 p-1">{{ ucfirst(@$data->status_pengajuan) }}</p>
+                                </div>
+                                <div class="form-group">
+                                    <label>Keterangan</label> 
+                                    <p class="ml-1 p-1">{{ @$data->keterangan }}</p>
                                 </div>
                                 <div class="form-group text-end">
-                                    <a type="button" href="{{ route('report') }}"
+                                    <a type="button" href="{{ route('pengajuan') }}"
                                         class="btn btn-warning">Kembali</a>
                                 </div>
                             </div>

@@ -120,3 +120,9 @@ Route::group(['prefix' => 'penerima', 'middleware' => 'userauth'], function(){
     Route::get('batal/{id}', [PenerimaController::class, 'batal'])->name('penerima.batal');
     Route::get('reject/{id}', [PenerimaController::class, 'reject'])->name('penerima.reject');
 });
+
+Route::group(['prefix' => 'report', 'middleware' => 'userauth'], function(){
+    Route::get('/', [ReportController::class, 'index'])->name('report');
+    Route::post('list', [ReportController::class, 'list'])->name('report.list');
+    Route::get('detail/{id}', [ReportController::class, 'detail'])->name('report.detail');
+});

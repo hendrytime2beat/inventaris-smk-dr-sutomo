@@ -40,31 +40,41 @@ class PengajuanController extends Controller
         if($request->post('status_pengajuan')){
             $where[] = ['status_pengajuan', '=', $request->post('status_pengajuan')];
         }
-        $column_order   = ['id', 'nama_item', 'harga', 'jenis', 'nama_kategori', 'nama_user_create', 'status_pengajuan', 'keterangan'];
-        $column_search  = ['nama_item', 'harga', 'jenis', 'nama_kategori', 'nama_user_create', 'status_pengajuan', 'keterangan'];
+        $column_order   = ['id', 'nama_item', 'jumlah', 'harga', 'jenis', 'nama_kategori', 'nama_user_create', 'status_pengajuan', 'keterangan'];
+        $column_search  = ['nama_item', 'jumlah', 'harga', 'jenis', 'nama_kategori', 'nama_user_create', 'status_pengajuan', 'keterangan'];
         $order = ['id' => 'DESC'];
         $list = GeneralModel::getDatatable('tb_pengajuan', $column_order, $column_search, $order, $where);
         $data = array();
         $no = $request->post('start');
         foreach ($list as $key) {
+            $action = '';
+            $finish = '&nbsp;<a class="btn btn-success btn-xxs mr-2" data-json=\''.json_encode($key).'\' data-action="Terima Pengajuan" data-url="'.route('pengajuan.finish', $key->id).'" onclick="main.main(this)"><li class="fa fa-check" aria-hidden="true"></li> Terima Pengajuan</a>';
+            $reject = '&nbsp;<a class="btn btn-danger btn-xxs mr-2" data-json=\''.json_encode($key).'\'data-action="Reject" data-url="'.route('pengajuan.reject', $key->id).'" onclick="main.main(this)"><li class="fa fa-close" aria-hidden="true"></li> Reject</a>';
+            $detail = '&nbsp;<a class="btn btn-primary btn-xxs mr-2" href="' . route('pengajuan.detail', $key->id) . '"><li class="fa fa-info" aria-hidden="true"></li> Detail</a>';
+            $hapus = '&nbsp;<a class="btn btn-danger btn-xxs hidden" onclick="hapus(' . $key->id . ')"><li class="fa fa-trash" aria-hidden="true"></li> Hapus</a>';
+            if(session('id_user_grup') == 1){
+                $action = $finish.$reject.$detail.$hapus;
+            } else if(session('id_user_grup') == 3){
+                $action = $finish.$reject.$detail.$hapus;
+            } else {
+                $action = $detail;
+            }
+            
+            if($key->status_pengajuan == 'finish'){
+                $action = $detail;
+            }
             $no++;
             $row = array();
             $row[] = $no;
             $row[] = $key->nama_item;
+            $row[] = $key->jumlah;
             $row[] = \Helper::uang($key->harga);
             $row[] = $key->jenis;
             $row[] = $key->nama_kategori;
             $row[] = $key->nama_user_create;
             $row[] = $key->status_pengajuan;
             $row[] = $key->keterangan;
-            $row[] = '
-                <a class="btn btn-success btn-xxs mr-2" data-json=\''.json_encode($key).'\' data-action="Realisasi" data-url="'.route('pengajuan.finish', $key->id).'" onclick="main.main(this)"><li class="fa fa-check" aria-hidden="true"></li> Relisasi</a>
-                &nbsp;
-                <a class="btn btn-danger btn-xxs mr-2" data-json=\''.json_encode($key).'\'data-action="Reject" data-url="'.route('pengajuan.reject', $key->id).'" onclick="main.main(this)"><li class="fa fa-close" aria-hidden="true"></li> Reject</a>
-                &nbsp;
-                <a class="btn btn-primary btn-xxs mr-2" href="' . route('pengajuan.detail', $key->id) . '"><li class="fa fa-info" aria-hidden="true"></li> Detail</a>
-                &nbsp;
-                <a class="btn btn-danger btn-xxs" onclick="hapus(' . $key->id . ')"><li class="fa fa-trash" aria-hidden="true"></li> Hapus</a>';
+            $row[] = $action;
             $data[] = $row;
         }
         $output = array(
@@ -145,7 +155,9 @@ class PengajuanController extends Controller
             'anggaran' => $pengajuan->anggaran,
             'jenis' => $pengajuan->jenis,
             'nama_kategori' => $pengajuan->nama_kategori,
+            'jumlah' => $pengajuan->jumlah,
             'harga' => $pengajuan->harga,
+            'total' => $pengajuan->total,
             'keterangan' => $pengajuan->keterangan,
             'nama_user_create' => $request->session()->get('nama'),
             'status_realisasi' => 'request',

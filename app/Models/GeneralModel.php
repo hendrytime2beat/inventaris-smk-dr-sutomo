@@ -97,16 +97,18 @@ class GeneralModel extends Model
 
         if ($where) {
             for ($i = 0; $i < count($where); $i++) {
-                if ($where[$i][3] == 'NULL') {
-                    $builder->whereNull($where[$i][0]);
-                } else if ($where[$i][3] == 'DATE') {
-                    $builder->whereDate($where[$i][0], $where[$i][1], $where[$i][2]);
-                } else if ($where[$i][3] == 'NOTNULL') {
-                    $builder->whereNotNull($where[$i][0]);
-                } else if ($where[$i][3] == 'IN') {
-                    $builder->whereIn($where[$i][0], $where[$i][1]);
-                } else {
+                if(empty($where[$i][3])){
                     $builder->where($where[$i][0], $where[$i][1], $where[$i][2]);
+                } else {
+                    if ($where[$i][3] == 'NULL') {
+                        $builder->whereNull($where[$i][0]);
+                    } else if ($where[$i][3] == 'DATE') {
+                        $builder->whereDate($where[$i][0], $where[$i][1], $where[$i][2]);
+                    } else if ($where[$i][3] == 'NOTNULL') {
+                        $builder->whereNotNull($where[$i][0]);
+                    } else if ($where[$i][3] == 'IN') {
+                        $builder->whereIn($where[$i][0], $where[$i][1]);
+                    } 
                 }
             }
         }

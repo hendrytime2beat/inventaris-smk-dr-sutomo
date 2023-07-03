@@ -80,6 +80,13 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label>Jumlah</label>
+                    @error('jumlah')
+                    <bR><small class="text-danger">{{ $message }}</small>
+                    @enderror
+                    <input type="number" name="jumlah" id="jumlah" placeholder="Jumlah" class="form-control" value="{{ old('jumlah') ? old('jumlah') : @$data->jumlah }}">
+                </div>
+                <div class="form-group">
                     <label>Harga</label>
                     @error('harga')
                     <bR><small class="text-danger">{{ $message }}</small>

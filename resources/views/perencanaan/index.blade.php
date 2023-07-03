@@ -6,11 +6,13 @@
         <div class="card-header">
             <div class="row">
                 <h5 class="mb-0 col-8">{{ $title }}</h5>
-                <div class="col-4 text-end">
-                  <a href="{{ route('perencanaan.add') }}" class="btn btn-success btn-xxs pull-right">
-                      <li class="fa fa-plus" aria-hidden="true"></li> Tambah {{ $title }}
-                  </a>
-              </div>
+                  <div class="col-4 text-end">
+                    @if(session('id_user_grup') == 1 || session('id_user_grup') == 2)
+                    <a href="{{ route('perencanaan.add') }}" class="btn btn-success btn-xxs pull-right">
+                        <li class="fa fa-plus" aria-hidden="true"></li> Tambah {{ $title }}
+                    </a>
+                    @endif
+                </div>
             </div>
         </div>
         <div class="card-body px-0 pt-0 pb-2">
@@ -66,6 +68,7 @@
                 <tr>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nama Item</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jumlah</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Harga</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jenis</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kategori</th>

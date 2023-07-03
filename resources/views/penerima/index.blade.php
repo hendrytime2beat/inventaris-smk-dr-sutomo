@@ -61,6 +61,7 @@
                 <tr>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nama Item</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jumlah</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Harga</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jenis</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kategori</th>
@@ -200,44 +201,40 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" name="id" id="id" value="0">
             <div class="form-group">
-              <label>Nama Vendor</label>  
-              <input type="text" name="nama_vendor" id="nama_vendor" class="form-control" placeholder="Nama Vendor">
+              <label>Nama Penerima</label>  
+              <input type="text" name="nama_penerima" id="nama_penerima" class="form-control" placeholder="Nama Penerima">
             </div>
             <div class="form-group">
-              <label>ETA</label>  
-              <input type="date" name="eta" id="eta" class="form-control" placeholder="ETA" value="{{ date('Y-m-d') }}">
+              <label>Tanggal Diterima</label>  
+              <input type="date" name="tanggal_terima" id="tanggal_terima" class="form-control" placeholder="Tanggal Diterima" value="{{ date('Y-m-d') }}">
             </div>
             <div class="form-group">
-                <label>Foto 1</label>
+                <label>Berkas 1</label>
                 <div class="alert alert-secondary text-center col-sm-6">
-                    <img id="blah_foto_1" src="{{ asset('assets/img/logo/logo.png') }}" style="width:200px;" onerror="imgError(this)" alt="..." loading="lazy">
+                    <img id="blah_berkas_1" src="{{ asset('assets/img/logo/logo.png') }}" style="width:200px;" onerror="imgError(this)" alt="..." loading="lazy">
                 </div>
-                <input class="form-control" name="foto_1" style="display:none;" id="foto_1" type="file" onchange="readURL(this, 'foto_1');" required>
-                <button class="btn btn-outline-success btn-sm" type="button" onclick="$('#foto_1').click();">Upload Foto</button>
+                <input class="form-control" name="berkas_1" style="display:none;" id="berkas_1" type="file" onchange="readURL(this, 'berkas_1');" required>
+                <button class="btn btn-outline-success btn-sm" type="button" onclick="$('#berkas_1').click();">Upload Berkas</button>
             </div>
             <div class="form-group">
-                <label>Foto 2</label>
+                <label>Berkas 2</label>
                 <div class="alert alert-secondary text-center col-sm-6">
-                    <img id="blah_foto_2" src="{{ asset('assets/img/logo/logo.png') }}" style="width:200px;" onerror="imgError(this)" alt="..." loading="lazy">
+                    <img id="blah_berkas_2" src="{{ asset('assets/img/logo/logo.png') }}" style="width:200px;" onerror="imgError(this)" alt="..." loading="lazy">
                 </div>
-                <input class="form-control" name="foto_2" style="display:none;" id="foto_2" type="file" onchange="readURL(this, 'foto_2');">
-                <button class="btn btn-outline-success btn-sm" type="button" onclick="$('#foto_2').click();">Upload Foto</button>
+                <input class="form-control" name="berkas_2" style="display:none;" id="berkas_2" type="file" onchange="readURL(this, 'berkas_2');" >
+                <button class="btn btn-outline-success btn-sm" type="button" onclick="$('#berkas_2').click();">Upload Berkas</button>
             </div>
             <div class="form-group">
-                <label>Foto 3</label>
+                <label>Berkas 3</label>
                 <div class="alert alert-secondary text-center col-sm-6">
-                    <img id="blah_foto_3" src="{{ asset('assets/img/logo/logo.png') }}" style="width:200px;" onerror="imgError(this)" alt="..." loading="lazy">
+                    <img id="blah_berkas_3" src="{{ asset('assets/img/logo/logo.png') }}" style="width:200px;" onerror="imgError(this)" alt="..." loading="lazy">
                 </div>
-                <input class="form-control" name="foto_3" style="display:none;" id="foto_3" type="file" onchange="readURL(this, 'foto_3');">
-                <button class="btn btn-outline-success btn-sm" type="button" onclick="$('#foto_3').click();">Upload Foto</button>
+                <input class="form-control" name="berkas_3" style="display:none;" id="berkas_3" type="file" onchange="readURL(this, 'berkas_3');" >
+                <button class="btn btn-outline-success btn-sm" type="button" onclick="$('#berkas_3').click();">Upload Berkas</button>
             </div>
             <div class="form-group">
-              <label>Link Pembelian</label>  
-              <input type="text" name="link_pembelian" id="link_pembelian" class="form-control" placeholder="Link Pembelian">
-            </div>
-            <div class="form-group">
-              <label>Catatan</label>
-              <textarea type="text" name="catatan" id="catatan" placeholder="Catatan" class="form-control" value="{{ old('catatan') }}" required></textarea>
+              <label>Catatan Penerima</label>
+              <textarea type="text" name="catatan_terima" id="catatan_terima" placeholder="Catatan Terima" class="form-control" value="{{ old('catatan_terima') }}" required></textarea>
             </div>
           </div>
           <div class="modal-footer">
@@ -267,7 +264,7 @@
               <label>Catatan</label>
               <input type="hidden" name="_token" value="{{ csrf_token() }}">
               <input type="hidden" name="id" id="id" value="0">
-              <textarea type="text" name="catatan" id="catatan" placeholder="Catatan" class="form-control" value="{{ old('catatan') }}" required></textarea>
+              <textarea type="text" name="catatan_tolak" id="catatan_tolak" placeholder="Catatan" class="form-control" value="{{ old('catatan_tolak') }}" required></textarea>
             </div>
           </div>
           <div class="modal-footer">
